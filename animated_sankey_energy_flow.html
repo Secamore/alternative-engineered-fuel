@@ -1,0 +1,106 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Animated Energy Flow Sankey</title>
+<script src="https://cdn.plot.ly/plotly-2.30.0.min.js"></script>
+<style>
+body{
+font-family:Arial,sans-serif;
+background:#08111f;
+color:white;
+padding:30px;
+}
+#chart{
+height:700px;
+background:#101c30;
+border-radius:20px;
+}
+.controls{
+margin:20px 0;
+padding:15px;
+background:#101c30;
+border-radius:15px;
+}
+</style>
+</head>
+<body>
+
+<h1>⚡ Animated Energy Flow Diagram</h1>
+<p>Interactive energy pathways for Hydrogen, CNG, and Methanol.</p>
+
+<div class="controls">
+<label>Scenario Intensity:
+<input type="range" id="scale" min="50" max="150" value="100">
+<span id="val">100%</span>
+</label>
+</div>
+
+<div id="chart"></div>
+
+<script>
+
+function render(scale){
+
+document.getElementById("val").innerText=scale+"%";
+
+let factor=scale/100;
+
+const data=[{
+type:"sankey",
+orientation:"h",
+node:{
+pad:25,
+thickness:20,
+line:{color:"white",width:0.5},
+label:[
+"Renewables",
+"Natural Gas",
+"Hydrogen",
+"CNG",
+"Methanol",
+"Transport",
+"Industry",
+"Power"
+]
+},
+link:{
+source:[0,1,1,0,2,3,4,2,4],
+target:[2,3,4,4,5,5,6,7,7],
+value:[30,25,15,20,25,20,20,15,10]
+.map(v=>v*factor),
+color:[
+"rgba(0,212,255,.7)",
+"rgba(255,166,0,.7)",
+"rgba(100,255,100,.7)",
+"rgba(255,0,150,.7)",
+"rgba(0,212,255,.7)",
+"rgba(255,166,0,.7)",
+"rgba(100,255,100,.7)",
+"rgba(255,0,150,.7)",
+"rgba(200,200,255,.7)"
+]
+}
+}];
+
+Plotly.newPlot('chart',data,{
+paper_bgcolor:"#101c30",
+plot_bgcolor:"#101c30",
+font:{color:"white"}
+});
+
+}
+
+render(100);
+
+document.getElementById("scale")
+.addEventListener("input",(e)=>{
+render(e.target.value);
+});
+
+</script>
+
+</body>
+</html>

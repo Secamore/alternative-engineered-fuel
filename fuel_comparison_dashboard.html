@@ -1,0 +1,118 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Interactive Fuel Comparison</title>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<style>
+body{
+font-family:Arial,sans-serif;
+background:#08111f;
+color:white;
+padding:30px;
+}
+h1{text-align:center}
+.grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(400px,1fr));
+gap:25px;
+margin-top:30px;
+}
+.card{
+padding:20px;
+background:#101c30;
+border-radius:20px;
+}
+canvas{
+background:white;
+padding:10px;
+border-radius:15px;
+}
+</style>
+</head>
+<body>
+
+<h1>⚡ Interactive Fuel Comparison Dashboard</h1>
+<p style="text-align:center">
+Hydrogen vs CNG vs Methanol
+</p>
+
+<div class="grid">
+
+<div class="card">
+<h2>Energy Density (MJ/kg)</h2>
+<canvas id="energy"></canvas>
+</div>
+
+<div class="card">
+<h2>Carbon Intensity (kg CO₂e/GJ)</h2>
+<canvas id="carbon"></canvas>
+</div>
+
+<div class="card">
+<h2>Technology Readiness Level (TRL)</h2>
+<canvas id="trl"></canvas>
+</div>
+
+<div class="card">
+<h2>Overall Comparison Score</h2>
+<canvas id="score"></canvas>
+</div>
+
+</div>
+
+<script>
+
+const fuels=["Hydrogen","CNG","Methanol"];
+
+new Chart(document.getElementById("energy"),{
+type:"bar",
+data:{
+labels:fuels,
+datasets:[{
+label:"MJ/kg",
+data:[120,50,20]
+}]
+}
+});
+
+new Chart(document.getElementById("carbon"),{
+type:"bar",
+data:{
+labels:fuels,
+datasets:[{
+label:"kg CO₂e/GJ",
+data:[0.5,7.5,4]
+}]
+}
+});
+
+new Chart(document.getElementById("trl"),{
+type:"radar",
+data:{
+labels:fuels,
+datasets:[{
+label:"TRL",
+data:[8,9,7]
+}]
+}
+});
+
+new Chart(document.getElementById("score"),{
+type:"polarArea",
+data:{
+labels:fuels,
+datasets:[{
+data:[92,75,80]
+}]
+}
+});
+
+</script>
+
+</body>
+</html>

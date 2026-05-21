@@ -1,0 +1,109 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Alternative Engineered Fuel Research Portal</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.plot.ly/plotly-2.30.0.min.js"></script>
+<style>
+body{font-family:Arial,sans-serif;margin:0;background:#08111f;color:white}
+canvas#bg{position:fixed;top:0;left:0;z-index:-1}
+section{padding:60px 30px}
+.hero{text-align:center;min-height:90vh;display:flex;flex-direction:column;justify-content:center}
+.card{background:rgba(255,255,255,.08);padding:20px;border-radius:20px;margin:15px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:20px}
+input[type=range]{width:100%}
+</style>
+</head>
+<body>
+<canvas id="bg"></canvas>
+
+<section class="hero">
+<h1>⚡ Alternative Engineered Fuel Research Portal</h1>
+<p>Interactive publication with animations, dashboards, simulator and Sankey flows</p>
+</section>
+
+<section>
+<h2>Fuel Comparison Dashboard</h2>
+<div class="grid">
+<div class="card"><canvas id="fuelChart"></canvas></div>
+<div class="card"><canvas id="carbonChart"></canvas></div>
+</div>
+</section>
+
+<section>
+<h2>2050 Scenario Simulator</h2>
+<div class="card">
+Renewables: <span id="rval">50</span>%
+<input type="range" id="renew" min="0" max="100" value="50">
+</div>
+<div class="card">
+Hydrogen Demand: <span id="hval">400</span> Mt
+<input type="range" id="hydro" min="50" max="1000" value="400">
+</div>
+<div class="card">
+Estimated emissions: <span id="result"></span> Gt CO₂
+</div>
+</section>
+
+<section>
+<h2>Animated Energy Flow Sankey</h2>
+<div id="sankey" style="height:650px"></div>
+</section>
+
+<script>
+// animated background
+const bg=document.getElementById("bg");
+const c=bg.getContext("2d");
+bg.width=innerWidth; bg.height=innerHeight;
+let p=[];
+for(let i=0;i<100;i++){p.push({x:Math.random()*innerWidth,y:Math.random()*innerHeight,dx:(Math.random()-.5),dy:(Math.random()-.5)})}
+function a(){
+c.clearRect(0,0,bg.width,bg.height);
+p.forEach(x=>{
+x.x+=x.dx;x.y+=x.dy;
+if(x.x<0||x.x>bg.width)x.dx*=-1;
+if(x.y<0||x.y>bg.height)x.dy*=-1;
+c.beginPath(); c.arc(x.x,x.y,2,0,7); c.fillStyle="#00d4ff"; c.fill();
+})
+requestAnimationFrame(a)
+}
+a();
+
+new Chart(document.getElementById("fuelChart"),{
+type:"bar",
+data:{labels:["Hydrogen","CNG","Methanol"],datasets:[{label:"Energy Density MJ/kg",data:[120,50,20]}]}
+});
+
+new Chart(document.getElementById("carbonChart"),{
+type:"radar",
+data:{labels:["Hydrogen","CNG","Methanol"],datasets:[{label:"Carbon Intensity",data:[0.5,7.5,4]}]}
+});
+
+function update(){
+let r=renew.value;
+let h=hydro.value;
+rval.innerText=r;
+hval.innerText=h;
+result.innerText=(35-r*.2-h*.01).toFixed(1);
+}
+renew.oninput=update;
+hydro.oninput=update;
+update();
+
+Plotly.newPlot('sankey',[{
+type:'sankey',
+node:{label:['Renewables','Natural Gas','Hydrogen','CNG','Methanol','Transport','Industry']},
+link:{
+source:[0,1,1,2,3,4],
+target:[2,3,4,5,5,6],
+value:[30,25,15,20,15,25]
+}
+}],{paper_bgcolor:"#08111f",font:{color:"white"}});
+
+</script>
+
+</body>
+</html>
