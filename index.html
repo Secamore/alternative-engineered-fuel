@@ -1,110 +1,280 @@
 
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Alternative Engineered Fuel Research Portal</title>
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script src="https://cdn.plot.ly/plotly-2.30.0.min.js"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Alternative Engineered Fuel — Advanced Edition</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700;800&display=swap" rel="stylesheet">
+
 <style>
-body{font-family:Arial,sans-serif;margin:0;background:#08111f;color:white}
-canvas#bg{position:fixed;top:0;left:0;z-index:-1}
-section{padding:60px 30px}
-.hero{text-align:center;min-height:90vh;display:flex;flex-direction:column;justify-content:center}
-.card{background:rgba(255,255,255,.08);padding:20px;border-radius:20px;margin:15px}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:20px}
-input[type=range]{width:100%}
+*{margin:0;padding:0;box-sizing:border-box}
+body{
+font-family:Inter,sans-serif;
+background:#030712;
+color:white;
+overflow-x:hidden;
+}
+canvas{
+position:fixed;
+top:0;
+left:0;
+z-index:-1;
+}
+.hero{
+min-height:100vh;
+padding:40px;
+display:flex;
+flex-direction:column;
+justify-content:center;
+}
+
+nav{
+display:flex;
+justify-content:space-between;
+margin-bottom:60px;
+}
+
+.logo{
+font-weight:800;
+font-size:24px;
+}
+
+.hero-content{
+max-width:760px;
+}
+
+h1{
+font-size:clamp(48px,8vw,90px);
+line-height:1;
+margin-bottom:20px;
+}
+
+.gradient{
+background:linear-gradient(90deg,#00d4ff,#55ffb7);
+-webkit-background-clip:text;
+-webkit-text-fill-color:transparent;
+}
+
+p{
+font-size:20px;
+opacity:.85;
+margin-bottom:30px;
+}
+
+.btn{
+display:inline-block;
+padding:16px 28px;
+border-radius:50px;
+margin-right:10px;
+text-decoration:none;
+font-weight:700;
+transition:.3s;
+}
+
+.primary{
+background:#00d4ff;
+color:black;
+}
+
+.secondary{
+border:1px solid rgba(255,255,255,.4);
+color:white;
+}
+
+.btn:hover{
+transform:translateY(-4px);
+}
+
+.stats{
+margin-top:40px;
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+gap:15px;
+}
+
+.card{
+background:rgba(255,255,255,.07);
+backdrop-filter:blur(18px);
+padding:25px;
+border-radius:20px;
+border:1px solid rgba(255,255,255,.1);
+}
+
+.card h2{
+color:#00d4ff;
+}
+
+.section{
+padding:80px 40px;
+}
+
+.grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+gap:25px;
+margin-top:30px;
+}
+
+.topic{
+padding:25px;
+background:#0f172a;
+border-radius:20px;
+border-left:4px solid #00d4ff;
+}
+
+footer{
+padding:30px;
+text-align:center;
+opacity:.7;
+}
+
 </style>
 </head>
 <body>
-<canvas id="bg"></canvas>
+
+<canvas id="energy"></canvas>
 
 <section class="hero">
-<h1>⚡ Alternative Engineered Fuel Research Portal</h1>
-<p>Interactive publication with animations, dashboards, simulator and Sankey flows</p>
+
+<nav>
+<div class="logo">⚡ Alternative Engineered Fuel</div>
+<div>Research Platform</div>
+</nav>
+
+<div class="hero-content">
+
+<h1>Engineering the <span class="gradient">Future of Energy</span></h1>
+
+<p>
+Interactive publication platform for hydrogen, CNG, methanol and advanced engineered fuel pathways.
+</p>
+
+<a class="btn primary" href="Alternative_Engineered_Fuel_Secamore_Owusu_2026_v8_1.pdf">Read Book</a>
+<a class="btn secondary" href="#">Research Data</a>
+
+<div class="stats">
+
+<div class="card">
+<h2>22</h2>
+Chapters
+</div>
+
+<div class="card">
+<h2>50+</h2>
+References
+</div>
+
+<div class="card">
+<h2>5</h2>
+Volumes
+</div>
+
+<div class="card">
+<h2>4</h2>
+Fuel Pathways
+</div>
+
+</div>
+
+</div>
 </section>
 
-<section>
-<h2>Fuel Comparison Dashboard</h2>
+<section class="section">
+
+<h1 style="font-size:40px">Research Areas</h1>
+
 <div class="grid">
-<div class="card"><canvas id="fuelChart"></canvas></div>
-<div class="card"><canvas id="carbonChart"></canvas></div>
+
+<div class="topic">
+<h3>Hydrogen Systems</h3>
+<p>SMR, PEM, Alkaline and Green Hydrogen technologies.</p>
 </div>
+
+<div class="topic">
+<h3>Safety Engineering</h3>
+<p>QRA, HAZOP, ATEX and risk analysis.</p>
+</div>
+
+<div class="topic">
+<h3>Environmental Assessment</h3>
+<p>Life cycle and emissions modeling.</p>
+</div>
+
+<div class="topic">
+<h3>Economic Modeling</h3>
+<p>LCOH and deployment economics.</p>
+</div>
+
+</div>
+
 </section>
 
-<section>
-<h2>2050 Scenario Simulator</h2>
-<div class="card">
-Renewables: <span id="rval">50</span>%
-<input type="range" id="renew" min="0" max="100" value="50">
-</div>
-<div class="card">
-Hydrogen Demand: <span id="hval">400</span> Mt
-<input type="range" id="hydro" min="50" max="1000" value="400">
-</div>
-<div class="card">
-Estimated emissions: <span id="result"></span> Gt CO₂
-</div>
-</section>
-
-<section>
-<h2>Animated Energy Flow Sankey</h2>
-<div id="sankey" style="height:650px"></div>
-</section>
+<footer>
+© 2026 Secamore Owusu A
+</footer>
 
 <script>
-// animated background
-const bg=document.getElementById("bg");
-const c=bg.getContext("2d");
-bg.width=innerWidth; bg.height=innerHeight;
-let p=[];
-for(let i=0;i<100;i++){p.push({x:Math.random()*innerWidth,y:Math.random()*innerHeight,dx:(Math.random()-.5),dy:(Math.random()-.5)})}
-function a(){
-c.clearRect(0,0,bg.width,bg.height);
-p.forEach(x=>{
-x.x+=x.dx;x.y+=x.dy;
-if(x.x<0||x.x>bg.width)x.dx*=-1;
-if(x.y<0||x.y>bg.height)x.dy*=-1;
-c.beginPath(); c.arc(x.x,x.y,2,0,7); c.fillStyle="#00d4ff"; c.fill();
-})
-requestAnimationFrame(a)
-}
-a();
+const canvas=document.getElementById("energy");
+const c=canvas.getContext("2d");
 
-new Chart(document.getElementById("fuelChart"),{
-type:"bar",
-data:{labels:["Hydrogen","CNG","Methanol"],datasets:[{label:"Energy Density MJ/kg",data:[120,50,20]}]}
+canvas.width=window.innerWidth;
+canvas.height=window.innerHeight;
+
+const particles=[];
+
+for(let i=0;i<120;i++){
+particles.push({
+x:Math.random()*canvas.width,
+y:Math.random()*canvas.height,
+r:Math.random()*3+1,
+dx:(Math.random()-.5)*1.2,
+dy:(Math.random()-.5)*1.2
+});
+}
+
+function animate(){
+c.clearRect(0,0,canvas.width,canvas.height);
+
+particles.forEach(p=>{
+
+p.x+=p.dx;
+p.y+=p.dy;
+
+if(p.x<0||p.x>canvas.width)p.dx*=-1;
+if(p.y<0||p.y>canvas.height)p.dy*=-1;
+
+c.beginPath();
+c.arc(p.x,p.y,p.r,0,Math.PI*2);
+c.fillStyle="rgba(0,212,255,.7)";
+c.fill();
+
+particles.forEach(q=>{
+let dist=Math.hypot(p.x-q.x,p.y-q.y);
+
+if(dist<120){
+c.beginPath();
+c.moveTo(p.x,p.y);
+c.lineTo(q.x,q.y);
+c.strokeStyle=`rgba(0,212,255,${1-dist/120})`;
+c.stroke();
+}
 });
 
-new Chart(document.getElementById("carbonChart"),{
-type:"radar",
-data:{labels:["Hydrogen","CNG","Methanol"],datasets:[{label:"Carbon Intensity",data:[0.5,7.5,4]}]}
 });
 
-function update(){
-let r=renew.value;
-let h=hydro.value;
-rval.innerText=r;
-hval.innerText=h;
-result.innerText=(35-r*.2-h*.01).toFixed(1);
+requestAnimationFrame(animate);
 }
-renew.oninput=update;
-hydro.oninput=update;
-update();
 
-Plotly.newPlot('sankey',[{
-type:'sankey',
-node:{label:['Renewables','Natural Gas','Hydrogen','CNG','Methanol','Transport','Industry']},
-link:{
-source:[0,1,1,2,3,4],
-target:[2,3,4,5,5,6],
-value:[30,25,15,20,15,25]
-}
-}],{paper_bgcolor:"#08111f",font:{color:"white"}});
+animate();
 
+window.onresize=()=>{
+canvas.width=window.innerWidth;
+canvas.height=window.innerHeight;
+};
 </script>
 
 </body>
 </html>
-<a href="https://doi.org/10.5281/zenodo.20335247">
+href="https://doi.org/10.5281/zenodo.20335247
+
